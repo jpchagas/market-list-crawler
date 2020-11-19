@@ -18,6 +18,8 @@ class CeasarsSpider(scrapy.Spider):
             l.add_xpath('maximo', "td[3]//text()")
             l.add_xpath('frequente', "td[4]//text()")
             l.add_xpath('minimo', "td[5]//text()")
+            l.add_value('data', dh.current_date())
+            l.add_value('origem', "CEASARS")
             yield l.load_item()
             '''
             yield {

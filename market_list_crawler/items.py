@@ -15,3 +15,4 @@ class MarketListCrawlerItem(scrapy.Item):
     frequente = scrapy.Field()
     minimo = scrapy.Field()
     data = scrapy.Field()
+    origem = scrapy.Field()
