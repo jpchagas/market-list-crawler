@@ -1,11 +1,10 @@
-import sqlalchemy as sqa
 from ..model.price import Base, Price
+from ..conf.db import DataBase as db
 
 
 class PriceController():
     def __init__(self):
-        # self.engine = sqa.create_engine('mysql+mysqlconnector://qb9symwchjidt7m1:uu6j728z3a3x50ve@zf4nk2bcqjvif4in.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/fvjnhq96l08yqf6v', echo=True)
-        self.engine = sqa.create_engine('mysql+mysqlconnector://dba:pegasos93@localhost:3306/marketlistdb', echo=True)
+        self.engine, self.session = db.getConnection()
 
     def getAll(self):
         '''
@@ -13,16 +12,18 @@ class PriceController():
         '''
         pass
 
-    def getOne(self):
+    def getOne(self, id):
         '''
         TODO
         '''
+        self.session.query(Price).filter_by(id=id)
         pass
 
-    def insert(self):
+    def insert(self, price):
         '''
         TODO
         '''
+        self.session.add(price)
         pass
 
     def update(self):

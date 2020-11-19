@@ -5,4 +5,10 @@ class DataBase():
         pass
 
     def getConnection(self):
-        pass
+        # self.engine = sqa.create_engine('mysql+mysqlconnector://qb9symwchjidt7m1:uu6j728z3a3x50ve@zf4nk2bcqjvif4in.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/fvjnhq96l08yqf6v', echo=True)
+        engine = sqa.create_engine('mysql+mysqlconnector://dba:pegasos93@localhost:3306/marketlistdb', echo=True)
+        # Create a session
+        Session = sqa.orm.sessionmaker()
+        Session.configure(bind=engine)
+        session = Session()
+        return engine, session
