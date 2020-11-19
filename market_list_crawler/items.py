@@ -9,4 +9,9 @@ import scrapy
 class MarketListCrawlerItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    produto = scrapy.Field()
+    unidade = scrapy.Field()
+    maximo = scrapy.Field()
+    frequente = scrapy.Field()
+    minimo = scrapy.Field()
+    data = scrapy.Field()
