@@ -1,19 +1,20 @@
 from datetime import date, datetime, timedelta
 import calendar
 
-today = date.today()
 
+def generate_url_bulk():
+    urls = []
+    prefix = r'http://ceasa.rs.gov.br/tabcotacao/'
+    for data in get_dates():
+        if data > date(2020, 1, 8):
+            url = prefix + data.strftime('%d-%m-%Y') + '/'
+        elif data == date(2020, 1, 8):
+            url = prefix + '2339' + '/'
+        else:
+            url = prefix + 'cotacao-' + data.strftime('%d-%m-%Y') + '/'
+        urls.append(url)
 
-def current_date():
-    return today.strftime("%d-%m-%Y")
-
-
-def string_date(str_date):
-    return datetime.strptime(str_date, '%d-%m-%Y').date()
-
-
-def get_weekday_name(day):
-    return calendar.day_name[day.weekday()]
+    return urls
 
 
 def get_dates():

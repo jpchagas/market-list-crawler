@@ -1,5 +1,6 @@
 import scrapy
 from ..utils import date_helper as dh
+from ..utils import url_helper as uh
 from ..items import MarketListCrawlerItem
 from scrapy.loader import ItemLoader
 
@@ -7,10 +8,18 @@ from scrapy.loader import ItemLoader
 class CeasarsSpider(scrapy.Spider):
     name = 'ceasars'
     allowed_domains = [r'http://ceasa.rs.gov.br/']
-    #start_urls = [self.url]
-    start_urls = [r'http://ceasa.rs.gov.br/tabcotacao/15-09-2020/']
+    #start_urls = [r'http://ceasa.rs.gov.br/tabcotacao/07-04-2020/']
+
+    def start_requests(self):
+        urls = uh.generate_url_bulk()
+        for url in urls:
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+        dia = response.xpath("//header/h1/text()").get()
+        if dia[0] == 'C':
+            dia = dia[8:]
+
         for row in response.xpath('//table/tbody/tr'):
             l = ItemLoader(item=MarketListCrawlerItem(), selector=row)
             l.add_xpath('produto', "td[1]//text()")
@@ -18,7 +27,8 @@ class CeasarsSpider(scrapy.Spider):
             l.add_xpath('maximo', "td[3]//text()")
             l.add_xpath('frequente', "td[4]//text()")
             l.add_xpath('minimo', "td[5]//text()")
-            l.add_value('data', dh.current_date())
+            l.add_value('data', dia.replace('/', '-'))
+            #l.add_value('data', dh.current_date())
             l.add_value('origem', "CEASARS")
             yield l.load_item()
             '''
