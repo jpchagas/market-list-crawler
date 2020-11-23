@@ -2,6 +2,19 @@ from datetime import date, datetime, timedelta
 import calendar
 
 
+today = date.today()
+
+
+def current_date():
+    return today.strftime("%d-%m-%Y")
+
+
+def generate_url():
+    urls = []
+    prefix = r'http://ceasa.rs.gov.br/tabcotacao/' + current_date() + '/'
+    urls.append(prefix)
+    return urls
+
 def generate_url_bulk():
     urls = []
     prefix = r'http://ceasa.rs.gov.br/tabcotacao/'

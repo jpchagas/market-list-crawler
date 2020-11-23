@@ -11,7 +11,7 @@ class CeasarsSpider(scrapy.Spider):
     #start_urls = [r'http://ceasa.rs.gov.br/tabcotacao/07-04-2020/']
 
     def start_requests(self):
-        urls = uh.generate_url_bulk()
+        urls = uh.generate_url()
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
