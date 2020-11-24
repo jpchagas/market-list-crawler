@@ -1,0 +1,1 @@
+web: sh setup.sh && scrapy-do-cl push-project
