@@ -32,8 +32,8 @@ def generate_url_bulk():
 
 def get_dates():
     days_list = []
-    begin_date = date(2019, 11, 28)
-    end_date = date(2020, 11, 21)
+    begin_date = date(2020, 11, 20)
+    end_date = date(2020, 11, 29)
 
     delta = end_date - begin_date
 

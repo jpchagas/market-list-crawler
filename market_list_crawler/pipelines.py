@@ -10,12 +10,11 @@ from itemadapter import ItemAdapter
 from .controller.price_controller import PriceController
 
 
-
-
 class MarketListCrawlerPipeline:
 
     def __init__(self):
         self.pc = PriceController()
+
     def process_item(self, item, spider):
-        self.pc.insert(item)
+        self.pc.insert_price(item)
         return item

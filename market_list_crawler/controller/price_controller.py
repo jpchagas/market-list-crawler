@@ -1,49 +1,27 @@
-from ..model.price import Base, Price
-from ..conf.db import DataBase
-from ..utils import date_helper
+from ..repository.price_repository import PriceRepository
 
 
-class PriceController():
+class PriceController:
     def __init__(self):
-        self.db = DataBase()
-        self.engine, self.session = self.db.getConnection()
-        Price.__table__.create(bind=self.engine, checkfirst=True)
+        self.price_repository = PriceRepository()
 
-    def getAll(self):
-        '''
-        TODO
-        '''
-        return self.session.query(Price).all()
+    def insert_price(self, price):
+        self.price_repository.insert(price)
 
-    def getOne(self, id):
-        '''
-        TODO
-        '''
-        self.session.query(Price).filter_by(id=id)
-        pass
+    def get_product_list(self):
+        return self.price_repository.get_distinct_price()
 
-    def insert(self, price):
-        '''
-        TODO
-        '''
-        new_price = Price(produto=price['produto'][0],
-                          unidade=price['unidade'][0],
-                          maximo=float(price['maximo'][0].replace(',', '.')),
-                          frequente=float(price['frequente'][0].replace(',', '.')),
-                          minimo=float(price['minimo'][0].replace(',', '.')),
-                          data=date_helper.string_date(price['data'][0]),
-                          origem=price['origem'][0])
-        self.session.add(new_price)
-        self.session.commit()
+    def get_price_information(self, request):
+        params = {}
+        if request.json['action'] == "L":
+            products = self.price_repository.get_distinct_price()
+            return products
+        else:
+            for param in request.json:
+                if param == 'action':
+                    pass
+                else:
+                    params[param] = request.json[param]
 
-    def update(self):
-        '''
-        TODO
-        '''
-        pass
-
-    def update(self):
-        '''
-        TODO
-        '''
-        pass
+            prices = self.price_repository.get_one(params)
+            return prices

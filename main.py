@@ -1,10 +1,12 @@
 from apscheduler.schedulers.background import BackgroundScheduler
+from market_list_crawler.controller.price_controller import PriceController
 
-from flask import Flask
+from flask import Flask, request
 import os
 
 
 app = Flask(__name__)
+
 
 
 def batch():
@@ -16,9 +18,15 @@ sched.add_job(batch, 'cron', day='*', hour='23', minute='59')
 sched.start()
 
 
-@app.route("/")
-def index():
-    return "<h1>Hello World</hi>"
+@app.route("/price", methods=["GET"])
+def get_prices():
+    pc = PriceController()
+    return pc.get_price_information(request)
+
+
+@app.route("/price", methods=['POST'])
+def get_price_by_name_date():
+    pass
 
 
 if __name__ == "__main__":
